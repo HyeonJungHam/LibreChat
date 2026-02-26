@@ -259,17 +259,7 @@ export async function createRun({
      *  non-custom endpoints, needs consideration of varying provider header configs.
      *  This is done at this step because the request body may contain dynamic values
      *  that need to be resolved after agent initialization.
-     *
-     * When requestBody is present, inject X-Conversation-Id so that custom endpoint
-     * backends (e.g. deepagents-api) receive conversation_id via header.
      */
-    if (requestBody != null && llmConfig?.configuration != null) {
-      const existing = (llmConfig.configuration.defaultHeaders as Record<string, string>) ?? {};
-      llmConfig.configuration.defaultHeaders = {
-        ...existing,
-        'X-Conversation-Id': '{{LIBRECHAT_BODY_CONVERSATIONID}}',
-      };
-    }
     if (llmConfig?.configuration?.defaultHeaders != null) {
       llmConfig.configuration.defaultHeaders = resolveHeaders({
         headers: llmConfig.configuration.defaultHeaders as Record<string, string>,
